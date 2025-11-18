@@ -69,6 +69,26 @@ public class Program
         string[,] monsterList = {{"Wandering skeleton", "3"}, {"Forest goblin", "5"}, {"Green Slime", "10"}, {"Ember Wolf", "11"}, {"Giant Spider", "18"}, {"Iron Golem", "15"}, {"Lost Necromancer", "20" }, { "Ancient Dragon", "50"} };
 
 
+        //CHAPTER THREE:
+
+        const string ChThreeTitle = "===== CHAPTER THREE =====";
+        const string ChThreeBegin = "Lets mine some gold! Enter the coordinates of the chunk you want to mine like this: <x y> you got 5 attemps";
+        const string CoordError = "Invalid coordinates, try again";
+        const string Miss = "You found nothing... Attemps left: {0} (Enter the coordinates of the chunk you want to mine like this: <x y>)";
+        const string Hit = "You found gold! Bits won: {0}. Attemps left: {1}";
+        const string Dumb = "You alredy checked this chunk!. Attemps left: {1}";
+        const string EndMine = "End of the session, your final bit score: {0}";
+        const int Rows = 6;
+        const int Cols = 6;
+        const int MaxAtt = 5;
+
+        int[,] coinMap = new int[6,6];
+        string[,] playerMap = {{" "," 1"," 2"," 3"," 4"," 5"}, {"1", "➖", "➖", "➖", "➖", "➖" }, { "2", "➖", "➖", "➖", "➖", "➖" }, { "3", "➖", "➖", "➖", "➖", "➖" } , { "4", "➖", "➖", "➖", "➖", "➖" }, { "5", "➖", "➖", "➖", "➖", "➖" } };
+        int x = 0;
+        int y = 0;
+        int totalBits = 0;
+        bool validCords = false;
+
         do
         {
             Console.WriteLine(MenuTitle);
@@ -193,7 +213,75 @@ public class Program
                         } while (input != "quit");
                         break;
                     case 3:
-                        
+                        //CHAPTER 3 CODE:
+                        Console.WriteLine(ChThreeTitle);
+                        Console.WriteLine(ChThreeBegin);
+                        for (int i = 0; i < Rows; i++)
+                        {
+                            for (int j = 0; j < Cols; j++)
+                            {
+                                Console.Write($"{playerMap[i, j]}|");
+                                int genCoin = rand.Next(1, 100);
+                                if (genCoin < 30)
+                                {
+                                    coinMap[i, j] = 1;
+                                }
+                                else 
+                                {
+                                    coinMap[i, j] = 0;
+                                }
+                            }
+                            Console.WriteLine();
+                            if (i == 0)
+                            {
+                                Console.WriteLine("------------------");
+                            }
+                        }
+                        for (int i = MaxAtt; i > 0; i--)
+                        {
+                            while (validCords == false)
+                            {
+                                bool isXInt = Int32.TryParse(Console.ReadLine(), out x);
+                                bool isYInt = Int32.TryParse(Console.ReadLine(), out y);
+                                validCords = isYInt && isXInt && x < 6 && x > 0 && y < 6 && y > 0;
+                                if (!validCords)
+                                {
+                                    Console.WriteLine(CoordError);
+                                }
+                            }
+                            switch (coinMap[y, x]) 
+                            {
+                                case 1:
+                                    int bits = rand.Next(5, 50);
+                                    totalBits = totalBits + bits;
+                                    Console.WriteLine(Hit, i, bits);
+                                    playerMap[y, x] = "🪙";
+                                    coinMap[y, x] = 2;
+                                    break;
+                                case 2:
+                                    Console.WriteLine(Dumb, i);
+                                    break;
+                                default:
+                                    Console.WriteLine(Miss, i);
+                                    playerMap[y, x] = "❌";
+                                    break;
+                            }
+                            for (int k = 0; k < Rows; k++)
+                            {
+                                for (int l = 0; l < Cols; l++)
+                                {
+                                    Console.Write($"{playerMap[k, l]}|");
+                                }
+                                Console.WriteLine();
+                                if (k == 0)
+                                {
+                                    Console.WriteLine("------------------");
+                                }
+                            }
+                            validCords = false;
+                        }
+                        Console.WriteLine(EndMine, totalBits);
+
                             break;
                     case 4:
 
