@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
 public class Program
 {
     static void Main()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
         const string MenuTitle = "===== MAIN MENU - CODEQUEST DLC =====";
         const string MenuOption1 = "1. Train your wizard";
         const string MenuOption2 = "2. Increase LVL";
@@ -41,7 +41,53 @@ public class Program
         int totalPow = 0;
         int actualPow = 0;
 
-       
+        //CHAPTER TWO
+        const string ChTwoTitle = "===== CHAPTER TWO =====";
+        const string ChTwoBegin = "Welcome to the dark forest, lets start grinding some monsters to gain level!";
+        const string MonsterMsg = "A wild {0} appeared, it has {1} points of life. Lets fight! (press enter to roll the dice, enter 'quit' to exit the forest.)";
+        const string LvlUp = "LEVEL UP! Your level is now {0}";
+        const string MaxLvl = "You are max level! ({0})";
+        const string RollMsg = "You rolled {0}, {1}'s total life: {2}";
+        const string ExitForest = "Nice session! Goodbye!";
+        const int MinDice = 1;
+        const int MaxDice = 6;
+        const int MaxMonst = 7;
+
+        //-ascii dices:
+
+        const string One = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
+        const string Two = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |  o o  | /\r\n |       |/ \r\n '-------'\r\n";
+        const string Three = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o     | |\r\n |   o   | /\r\n |     o |/ \r\n '-------'\r\n";
+        const string Four = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n |       | /\r\n | o   o |/ \r\n '-------'\r\n";
+        const string Five = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n |   o   | /\r\n | o   o |/ \r\n '-------'\r\n";
+        const string Six = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n | o   o | /\r\n | o   o |/ \r\n '-------'\r\n";
+
+        string input = "";
+        Random rand = new Random();
+        int roll = 0;
+        int level = 0;
+        string[,] monsterList = {{"Wandering skeleton", "3"}, {"Forest goblin", "5"}, {"Green Slime", "10"}, {"Ember Wolf", "11"}, {"Giant Spider", "18"}, {"Iron Golem", "15"}, {"Lost Necromancer", "20" }, { "Ancient Dragon", "50"} };
+
+
+        //CHAPTER THREE:
+
+        const string ChThreeTitle = "===== CHAPTER THREE =====";
+        const string ChThreeBegin = "Lets mine some gold! Enter the coordinates of the chunk you want to mine like this: <x y> you got 5 attemps";
+        const string CoordError = "Invalid coordinates, try again";
+        const string Miss = "You found nothing... Attemps left: {0} (Enter the coordinates of the chunk you want to mine like this: <x y>)";
+        const string Hit = "You found gold! Bits won: {0}. Attemps left: {1}";
+        const string Dumb = "You alredy checked this chunk!. Attemps left: {1}";
+        const string EndMine = "End of the session, your final bit score: {0}";
+        const int Rows = 6;
+        const int Cols = 6;
+        const int MaxAtt = 5;
+
+        int[,] coinMap = new int[6,6];
+        string[,] playerMap = {{" "," 1"," 2"," 3"," 4"," 5"}, {"1", "➖", "➖", "➖", "➖", "➖" }, { "2", "➖", "➖", "➖", "➖", "➖" }, { "3", "➖", "➖", "➖", "➖", "➖" } , { "4", "➖", "➖", "➖", "➖", "➖" }, { "5", "➖", "➖", "➖", "➖", "➖" } };
+        int x = 0;
+        int y = 0;
+        int totalBits = 0;
+        bool validCords = false;
 
         do
         {
@@ -110,12 +156,133 @@ public class Program
 
                         break;
                     case 2:
-                        
-                        break;
+                        //CHAPTER 2 CODE:
 
-                    case 3:
-                        
+                        Console.WriteLine(ChTwoTitle);
+                        Console.WriteLine(ChTwoBegin);
+                        do
+                        {
+                            int aux2 = rand.Next(0, MaxMonst);
+                            int life = Convert.ToInt32(monsterList[aux2, 1]);
+                            Console.WriteLine(MonsterMsg, monsterList[aux2, 0], life);
+                            input = Convert.ToString(Console.ReadLine() ?? "");
+                            if (input == "quit")
+                            {
+                                Console.WriteLine(ExitForest);
+                            }
+                            else
+                            { 
+                                while (life > 0) 
+                                {
+                                    roll = rand.Next(MinDice, MaxDice);
+                                    life = life - roll;
+                                    switch (roll) 
+                                    {
+                                        case 1:
+                                            Console.WriteLine(One);
+                                            break;
+                                        case 2:
+                                            Console.WriteLine(Two);
+                                            break;
+                                        case 3:
+                                            Console.WriteLine(Three);
+                                            break;
+                                        case 4:
+                                            Console.WriteLine(Four);
+                                            break;
+                                        case 5:
+                                            Console.WriteLine(Five);
+                                            break;
+                                        default:
+                                            Console.WriteLine(Six);
+                                            break;
+                                    }
+                                    Console.WriteLine(RollMsg, roll, monsterList[aux2, 0], life);
+                                    Console.ReadLine();
+                                }
+                                if (level < 5)
+                                {
+                                    level++;
+                                    Console.WriteLine(LvlUp, level);
+                                }
+                                else 
+                                {
+                                    Console.WriteLine(MaxLvl, level);
+                                }
+                            }
+                        } while (input != "quit");
                         break;
+                    case 3:
+                        //CHAPTER 3 CODE:
+                        Console.WriteLine(ChThreeTitle);
+                        Console.WriteLine(ChThreeBegin);
+                        for (int i = 0; i < Rows; i++)
+                        {
+                            for (int j = 0; j < Cols; j++)
+                            {
+                                Console.Write($"{playerMap[i, j]}|");
+                                int genCoin = rand.Next(1, 100);
+                                if (genCoin < 30)
+                                {
+                                    coinMap[i, j] = 1;
+                                }
+                                else 
+                                {
+                                    coinMap[i, j] = 0;
+                                }
+                            }
+                            Console.WriteLine();
+                            if (i == 0)
+                            {
+                                Console.WriteLine("------------------");
+                            }
+                        }
+                        for (int i = MaxAtt; i > 0; i--)
+                        {
+                            while (validCords == false)
+                            {
+                                bool isXInt = Int32.TryParse(Console.ReadLine(), out x);
+                                bool isYInt = Int32.TryParse(Console.ReadLine(), out y);
+                                validCords = isYInt && isXInt && x < 6 && x > 0 && y < 6 && y > 0;
+                                if (!validCords)
+                                {
+                                    Console.WriteLine(CoordError);
+                                }
+                            }
+                            switch (coinMap[y, x]) 
+                            {
+                                case 1:
+                                    int bits = rand.Next(5, 50);
+                                    totalBits = totalBits + bits;
+                                    Console.WriteLine(Hit, i, bits);
+                                    playerMap[y, x] = "🪙";
+                                    coinMap[y, x] = 2;
+                                    break;
+                                case 2:
+                                    Console.WriteLine(Dumb, i);
+                                    break;
+                                default:
+                                    Console.WriteLine(Miss, i);
+                                    playerMap[y, x] = "❌";
+                                    break;
+                            }
+                            for (int k = 0; k < Rows; k++)
+                            {
+                                for (int l = 0; l < Cols; l++)
+                                {
+                                    Console.Write($"{playerMap[k, l]}|");
+                                }
+                                Console.WriteLine();
+                                if (k == 0)
+                                {
+                                    Console.WriteLine("------------------");
+                                }
+                            }
+                            validCords = false;
+                        }
+                        Console.WriteLine(EndMine, totalBits);
+
+                            break;
                     case 4:
 
                         break;
