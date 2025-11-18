@@ -72,18 +72,18 @@ public class Program
         //CHAPTER THREE:
 
         const string ChThreeTitle = "===== CHAPTER THREE =====";
-        const string ChThreeBegin = "Lets mine some gold! Enter the coordinates of the chunk you want to mine like this: <x y> you got 5 attemps";
+        const string ChThreeBegin = "Lets mine some gold! Enter the coordinates of the chunk you want to mine like this: <x y> you got {0} attemps";
         const string CoordError = "Invalid coordinates, try again";
         const string Miss = "You found nothing... Attemps left: {0} (Enter the coordinates of the chunk you want to mine like this: <x y>)";
         const string Hit = "You found gold! Bits won: {0}. Attemps left: {1}";
-        const string Dumb = "You alredy checked this chunk!. Attemps left: {1}";
+        const string Dumb = "You alredy checked this chunk!. Attemps left: {0}";
         const string EndMine = "End of the session, your final bit score: {0}";
         const int Rows = 6;
         const int Cols = 6;
         const int MaxAtt = 5;
+        const int MineProb = 40;
 
         int[,] coinMap = new int[6,6];
-        string[,] playerMap = {{" "," 1"," 2"," 3"," 4"," 5"}, {"1", "➖", "➖", "➖", "➖", "➖" }, { "2", "➖", "➖", "➖", "➖", "➖" }, { "3", "➖", "➖", "➖", "➖", "➖" } , { "4", "➖", "➖", "➖", "➖", "➖" }, { "5", "➖", "➖", "➖", "➖", "➖" } };
         int x = 0;
         int y = 0;
         int totalBits = 0;
@@ -214,15 +214,16 @@ public class Program
                         break;
                     case 3:
                         //CHAPTER 3 CODE:
+                        string[,] playerMap = { { " "," 1"," 2"," 3"," 4"," 5"}, { "1", "➖", "➖", "➖", "➖", "➖" }, { "2", "➖", "➖", "➖", "➖", "➖" }, { "3", "➖", "➖", "➖", "➖", "➖" } , { "4", "➖", "➖", "➖", "➖", "➖" }, { "5", "➖", "➖", "➖", "➖", "➖" } };
                         Console.WriteLine(ChThreeTitle);
-                        Console.WriteLine(ChThreeBegin);
+                        Console.WriteLine(ChThreeBegin, MaxAtt);
                         for (int i = 0; i < Rows; i++)
                         {
                             for (int j = 0; j < Cols; j++)
                             {
                                 Console.Write($"{playerMap[i, j]}|");
                                 int genCoin = rand.Next(1, 100);
-                                if (genCoin < 30)
+                                if (genCoin < MineProb)
                                 {
                                     coinMap[i, j] = 1;
                                 }
@@ -237,7 +238,7 @@ public class Program
                                 Console.WriteLine("------------------");
                             }
                         }
-                        for (int i = MaxAtt; i > 0; i--)
+                        for (int i = MaxAtt - 1; i >= 0; i--)
                         {
                             while (validCords == false)
                             {
@@ -264,6 +265,7 @@ public class Program
                                 default:
                                     Console.WriteLine(Miss, i);
                                     playerMap[y, x] = "❌";
+                                    coinMap[y, x] = 2;
                                     break;
                             }
                             for (int k = 0; k < Rows; k++)
