@@ -18,9 +18,30 @@ public class Program
         const string InputErrorMessage = "Invalid input. Please enter a number between 0 and 7.";
 
         int op = -1;
-        bool validInput = false;
 
-        var rand = new Random();
+        //CHAPTER ONE
+        const string ChOneTitle = "===== CHAPTER ONE =====";
+        const string ChOneBegin = "Welcome to the arcane academy! Let's start training your magic power in the next 5 days.";
+        const string ChOneName = "Please choose your wizard name (max of 15 characters):";
+        const string DayMsg = "--DAY {0} you meditated 10 hours, you gained {1} power points!";
+        const string PowMsg = "Actual power: {0} press ENTER to continue";
+        const string PowerNoob = "You are weak, you think that spoons are the same that magic wands...";
+        const string PowerPro = "Almost there! At least you can conjure little magic breezes...";
+        const string PowerHacker = "Yeah! your power is pretty impressive! you can invoke all sorts of dragons and conjure different spells.";
+        const string PowerGod = "Congratulations! your power is worth of an arcane master! Your knowldedge is unlimited.";
+        const string NameError = "Invalid name, please input a name with at least one character and shorter than 15 characters.";
+
+        const string LevelNoob = ", The Bread Head, That's your level.";
+        const string LevelPro = " Peppermint, That's your level.";
+        const string LevelHacker = ", The red magician, That's your level.";
+        const string LevelGod = ", Jujutsu of Oblivion, That's your level.";
+
+        string firstName = "";
+        var randomNum = new Random();
+        int totalPow = 0;
+        int actualPow = 0;
+
+       
 
         do
         {
@@ -37,13 +58,63 @@ public class Program
                 {
                     case 1:
 
+                        //CHAPTER 1 CODE:
+                        Console.WriteLine(ChOneTitle);
+                        Console.WriteLine(ChOneBegin);
+                        Console.WriteLine(ChOneName);
+                        firstName = Console.ReadLine() ?? "";
+
+
+                        while (String.IsNullOrWhiteSpace(firstName) || firstName.Length > 15)
+                        {
+                            Console.WriteLine(NameError);
+                            firstName = Console.ReadLine() ?? "";
+                        }
+
+                        char aux = char.ToUpper(firstName[0]);
+                        string rest = firstName.Substring(1).ToLower();
+                        string name = string.Concat(aux, rest);
+
+                        for (int i = 1; i <= 5; i++)
+                        {
+                            actualPow = randomNum.Next(1, 10);
+                            Console.WriteLine(DayMsg, i, actualPow);
+                            totalPow += actualPow;
+                            Console.WriteLine(PowMsg, totalPow);
+                            Console.ReadLine();
+                        }
+
+                        switch (totalPow)
+                        {
+                            case <= 20:
+                                Console.WriteLine(PowerNoob);
+                                Console.WriteLine(name + LevelNoob);
+                                break;
+                            case <= 30:
+                                Console.WriteLine(PowerPro);
+                                Console.WriteLine(name + LevelPro);
+                                break;
+                            case <= 40:
+                                Console.WriteLine(PowerHacker);
+                                Console.WriteLine(name + LevelHacker);
+                                break;
+                            case <= 47:
+                                Console.WriteLine(PowerGod);
+                                Console.WriteLine(name + LevelGod);
+                                break;
+                            default:
+                                Console.WriteLine(PowerGod);
+                                Console.WriteLine(name + LevelGod);
+                                break;
+                        }
+
                         break;
                     case 2:
-
+                        
                         break;
 
                     case 3:
-
+                        
                         break;
                     case 4:
 
@@ -61,6 +132,9 @@ public class Program
                     case 0:
                         Console.WriteLine("Quitting...");
                         break;
+                    case -1:
+                        Console.WriteLine();
+                        break;
                     default:
                         Console.WriteLine(InputErrorMessage);
                         break;
@@ -70,12 +144,10 @@ public class Program
             catch (FormatException)
             {
                 Console.WriteLine(InputErrorMessage);
-                validInput = false;
             }
             catch (Exception)
             {
                 Console.WriteLine(InputErrorMessage);
-                validInput = false;
             }
         } while (op != 0);
     }
