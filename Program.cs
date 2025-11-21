@@ -51,7 +51,7 @@ public class Program
         //CHAPTER TWO
         const string ChTwoTitle = "===== CHAPTER TWO =====";
         const string ChTwoBegin = "Welcome to the dark forest, lets start grinding some monsters to gain level!";
-        const string MonsterMsg = "A wild {0} appeared, it has {1} points of life. Lets fight! (press enter to roll the dice, enter 'quit' to exit the forest.)";
+        const string MonsterMsg = "A wild {0} appeared, it has {1} points of life. Lets fight! (press enter to roll the dice, enter '0' to exit the forest.)";
         const string LvlUp = "LEVEL UP! Your level is now {0}";
         const string MaxLvl = "You are max level! ({0})";
         const string RollMsg = "You rolled {0}, {1}'s total life: {2}";
@@ -196,7 +196,7 @@ public class Program
                             int life = Convert.ToInt32(monsterList[aux2, 1]);
                             Console.WriteLine(MonsterMsg, monsterList[aux2, 0], life);
                             input = Convert.ToString(Console.ReadLine() ?? "");
-                            if (input == "quit")
+                            if (input == "0")
                             {
                                 Console.WriteLine(ExitForest);
                             }
