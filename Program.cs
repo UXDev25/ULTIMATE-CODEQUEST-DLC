@@ -73,7 +73,6 @@ public class Program
             Console.WriteLine(MenuTitle);
             Console.WriteLine(MenuOption1);
             Console.WriteLine(MenuOption2);
-            Console.WriteLine(MenuOption3);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
