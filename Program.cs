@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 public class Program
 {
@@ -72,9 +73,9 @@ public class Program
         //CHAPTER THREE:
 
         const string ChThreeTitle = "===== CHAPTER THREE =====";
-        const string ChThreeBegin = "Lets mine some gold! Enter the coordinates of the chunk you want to mine like this: <x y> you got {0} attemps";
+        const string ChThreeBegin = "Lets mine some gold! Enter the coordinates of the chunk you want to mine, you got {0} attemps";
         const string CoordError = "Invalid coordinates, try again";
-        const string Miss = "You found nothing... Attemps left: {0} (Enter the coordinates of the chunk you want to mine like this: <x y>)";
+        const string Miss = "You found nothing... Attemps left: {0} (Enter the coordinates of the chunk you want to mine)";
         const string Hit = "You found gold! Bits won: {0}. Attemps left: {1}";
         const string Dumb = "You alredy checked this chunk!. Attemps left: {0}";
         const string EndMine = "End of the session, your final bit score: {0}";
@@ -88,6 +89,10 @@ public class Program
         int y = 0;
         int totalBits = 0;
         bool validCords = false;
+
+        //CHAPTER FOUR:
+        const string ChFourTitle = "===== CHAPTER FOUR =====";
+        const string ChFourBegin = "";
 
         do
         {
@@ -214,7 +219,7 @@ public class Program
                         break;
                     case 3:
                         //CHAPTER 3 CODE:
-                        string[,] playerMap = { { " "," 1"," 2"," 3"," 4"," 5"}, { "1", "➖", "➖", "➖", "➖", "➖" }, { "2", "➖", "➖", "➖", "➖", "➖" }, { "3", "➖", "➖", "➖", "➖", "➖" } , { "4", "➖", "➖", "➖", "➖", "➖" }, { "5", "➖", "➖", "➖", "➖", "➖" } };
+                        string[,] playerMap = { { " "," 1"," 2"," 3"," 4"," 5"}, { "-1", "➖", "➖", "➖", "➖", "➖" }, { "-2", "➖", "➖", "➖", "➖", "➖" }, { "-3", "➖", "➖", "➖", "➖", "➖" } , { "-4", "➖", "➖", "➖", "➖", "➖" }, { "-5", "➖", "➖", "➖", "➖", "➖" } };
                         Console.WriteLine(ChThreeTitle);
                         Console.WriteLine(ChThreeBegin, MaxAtt);
                         for (int i = 0; i < Rows; i++)
@@ -242,8 +247,12 @@ public class Program
                         {
                             while (validCords == false)
                             {
+                                Console.Write("x: ");
                                 bool isXInt = Int32.TryParse(Console.ReadLine(), out x);
+                                Console.Write("y: ");
                                 bool isYInt = Int32.TryParse(Console.ReadLine(), out y);
+                                x = Math.Abs(x);
+                                y = Math.Abs(y);
                                 validCords = isYInt && isXInt && x < 6 && x > 0 && y < 6 && y > 0;
                                 if (!validCords)
                                 {
@@ -255,7 +264,7 @@ public class Program
                                 case 1:
                                     int bits = rand.Next(5, 50);
                                     totalBits = totalBits + bits;
-                                    Console.WriteLine(Hit, i, bits);
+                                    Console.WriteLine(Hit, bits, i);
                                     playerMap[y, x] = "🪙";
                                     coinMap[y, x] = 2;
                                     break;
@@ -286,6 +295,8 @@ public class Program
 
                             break;
                     case 4:
+                        //CHAPTER FOUR CODE:
+
 
                         break;
 
