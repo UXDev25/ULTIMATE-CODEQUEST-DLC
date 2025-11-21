@@ -92,7 +92,11 @@ public class Program
 
         //CHAPTER FOUR:
         const string ChFourTitle = "===== CHAPTER FOUR =====";
-        const string ChFourBegin = "";
+        const string ChFourBegin = "This is your inventory: ";
+        const string NoInv = "- You have no items yet. -";
+        const string ShowInv = "- These are your current items: -";
+
+        string[] inventory = new string[0];
 
         do
         {
@@ -105,6 +109,7 @@ public class Program
             try
             {
                 op = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
                 switch (op)
                 {
                     case 1:
@@ -158,7 +163,7 @@ public class Program
                                 Console.WriteLine(name + LevelGod);
                                 break;
                         }
-
+                        Console.WriteLine();
                         break;
                     case 2:
                         //CHAPTER 2 CODE:
@@ -176,11 +181,12 @@ public class Program
                                 Console.WriteLine(ExitForest);
                             }
                             else
-                            { 
-                                while (life > 0) 
+                            {
+                                while (life > 0)
                                 {
                                     roll = rand.Next(MinDice, MaxDice);
                                     life = life - roll;
+                                    if (life < 0){ life = 0; }
                                     switch (roll) 
                                     {
                                         case 1:
@@ -216,6 +222,7 @@ public class Program
                                 }
                             }
                         } while (input != "quit");
+                        Console.WriteLine();
                         break;
                     case 3:
                         //CHAPTER 3 CODE:
@@ -292,12 +299,25 @@ public class Program
                             validCords = false;
                         }
                         Console.WriteLine(EndMine, totalBits);
-
-                            break;
+                        Console.WriteLine();
+                        break;
                     case 4:
                         //CHAPTER FOUR CODE:
-
-
+                        Console.WriteLine(ChFourTitle);
+                        Console.WriteLine(ChFourBegin);
+                        bool hasItems = inventory.Length == 0 ? false : true;
+                        if (!hasItems)
+                        {
+                            Console.WriteLine(hasItems);
+                        }
+                        else 
+                        {
+                            foreach (string i in inventory)
+                            {
+                                Console.WriteLine($"- {i}");
+                            }
+                        }
+                        Console.WriteLine();
                         break;
 
                     case 5:
