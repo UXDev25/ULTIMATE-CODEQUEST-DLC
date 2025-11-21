@@ -1,11 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Xml;
 public class Program
 {
     static void Main()
-    {
+    {   
+        //GENERAL
         Console.OutputEncoding = System.Text.Encoding.UTF8;
+        int Rows = 0;
+        int Cols = 0;
+
         const string MenuTitle = "===== MAIN MENU - CODEQUEST DLC =====";
         const string MenuOption1 = "1. Train your wizard";
         const string MenuOption2 = "2. Increase LVL";
@@ -79,10 +85,8 @@ public class Program
         const string Hit = "You found gold! Bits won: {0}. Attemps left: {1}";
         const string Dumb = "You alredy checked this chunk!. Attemps left: {0}";
         const string EndMine = "End of the session, your final bit score: {0}";
-        const int Rows = 6;
-        const int Cols = 6;
         const int MaxAtt = 5;
-        const int MineProb = 40;
+        const int MineProb = 60;
 
         int[,] coinMap = new int[6,6];
         int x = 0;
@@ -98,12 +102,28 @@ public class Program
 
         string[] inventory = new string[0];
 
+        //CHAPTER FIVE:
+
+        const string ChFiveTitle = "===== CHAPTER FIVE =====";
+        const string ChFiveBegin = "Welcome to the shop! To buy an item, insert the number corresponding to that item, insert '0' to leave.";
+        const string Bits = "Total bits: {0}";
+        const string PurchaseError = "Invalid item, try again.";
+        const string Ins = "Insufficent Bits, go to the mine to get more bits.";
+        const string PurchaseMsg = "You bought a {0} for {1} bits!";
+        const string ExitShop = "See you next time!";
+
+        string[,] shop = { { "Objecte", "Preu (Bits)"}, { "Iron dagger", "30"}, { "Healing Potion", "10" }, { "Ancient Key", "50" }, { "Crossbow", "40" }, { "Metal Shield", "20" } };
+        int buyId = -1;
+        bool validId = false;
+
         do
         {
             Console.WriteLine(MenuTitle);
             Console.WriteLine(MenuOption1);
             Console.WriteLine(MenuOption2);
             Console.WriteLine(MenuOption3);
+            Console.WriteLine(MenuOption4);
+            Console.WriteLine(MenuOption5);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
@@ -226,9 +246,11 @@ public class Program
                         break;
                     case 3:
                         //CHAPTER 3 CODE:
-                        string[,] playerMap = { { " "," 1"," 2"," 3"," 4"," 5"}, { "-1", "➖", "➖", "➖", "➖", "➖" }, { "-2", "➖", "➖", "➖", "➖", "➖" }, { "-3", "➖", "➖", "➖", "➖", "➖" } , { "-4", "➖", "➖", "➖", "➖", "➖" }, { "-5", "➖", "➖", "➖", "➖", "➖" } };
+                        string[,] playerMap = { { "  "," 1"," 2"," 3"," 4"," 5"}, { "-1", "➖", "➖", "➖", "➖", "➖" }, { "-2", "➖", "➖", "➖", "➖", "➖" }, { "-3", "➖", "➖", "➖", "➖", "➖" } , { "-4", "➖", "➖", "➖", "➖", "➖" }, { "-5", "➖", "➖", "➖", "➖", "➖" } };
                         Console.WriteLine(ChThreeTitle);
                         Console.WriteLine(ChThreeBegin, MaxAtt);
+                        Rows = 6;
+                        Cols = 6;
                         for (int i = 0; i < Rows; i++)
                         {
                             for (int j = 0; j < Cols; j++)
@@ -308,7 +330,7 @@ public class Program
                         bool hasItems = inventory.Length == 0 ? false : true;
                         if (!hasItems)
                         {
-                            Console.WriteLine(hasItems);
+                            Console.WriteLine(NoInv);
                         }
                         else 
                         {
@@ -321,6 +343,60 @@ public class Program
                         break;
 
                     case 5:
+                        //CHAPTER FIVE CODE:
+                        Console.WriteLine(ChFiveTitle);
+                        Console.WriteLine(ChFiveBegin);
+                        Console.WriteLine(Bits);
+                        Rows = 6;
+                        Cols = 2;
+                        for (int i = 0; i < Rows; i++)
+                        {
+                            for (int j = 0; j < Cols; j++)
+                            {
+                                Console.Write($" | {shop[i, j],-15} | ");
+                            }
+                            Console.WriteLine();
+                            if (i == 0)
+                            {
+                                Console.WriteLine("-----------------------------------");
+                            }
+                        }
+                        do
+                        {
+                            validId = Int32.TryParse(Console.ReadLine(), out buyId);
+                            if (!validId || buyId > 5)
+                            {
+                                Console.WriteLine(PurchaseError);
+                                buyId = -1;
+                            }
+                            else if (buyId == 0)
+                            {
+                                Console.WriteLine(ExitShop);
+                                
+                            }
+                            else
+                            {
+                                bool insuf = Convert.ToInt32(shop[buyId, 1]) > totalBits ? true : false;
+                                if (insuf)
+                                {
+                                    Console.WriteLine(Ins);
+                                }
+                                else
+                                {
+                                    string[] auxArray = new string[inventory.GetLength(0) + 1];
+                                    for (int i = 0; i < inventory.GetLength(0); i++)
+                                    {
+                                        auxArray[i] = inventory[i];
+                                    }
+                                    inventory = auxArray;
+                                    inventory[inventory.GetLength(0) - 1] = shop[buyId, 0];
+                                    totalBits -= Convert.ToInt32(shop[buyId, 1]);
+                                    Console.WriteLine(PurchaseMsg, shop[buyId, 0], shop[buyId, 1]);
+                                    Console.WriteLine(Bits, totalBits);
+                                }
+                            }
+                            Console.WriteLine();
+                        } while (buyId != 0);                
 
                         break;
                     case 6:
