@@ -123,7 +123,7 @@ public class Program
         int buyId = -1;
         bool validId = false;
 
-        //CHAPTER SIX:
+        //CHAPTER SIX text for commiting:
 
         const string ChSixTitle = "===== CHAPTER SIX =====";
         const string ChSixBegin = "{0}, These are your wizard Spells!";
