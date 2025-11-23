@@ -69,7 +69,7 @@ public class Program
         const int MaxDice = 6;
         const int MaxMonst = 7;
 
-        //-ascii dices:
+        //-Ascii dices:
 
         const string One = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
         const string Two = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |  o o  | /\r\n |       |/ \r\n '-------'\r\n";
