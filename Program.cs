@@ -27,6 +27,12 @@ public class Program
 
         int op = -1;
 
+        //CHAPTER FOUR:
+        const string ChFourTitle = "===== CHAPTER FOUR =====";
+        const string ChFourBegin = "This is your inventory: ";
+        const string NoInv = "- You have no items yet. -";
+
+        string[] inventory = new string[0];
         //CHAPTER THREE:
 
         const string ChThreeTitle = "===== CHAPTER THREE =====";
@@ -70,8 +76,7 @@ public class Program
         do
         {
             Console.WriteLine(MenuTitle);
-            Console.WriteLine(MenuOption1);
-            Console.WriteLine(MenuOption2);
+            Console.WriteLine(MenuOption4);
             Console.WriteLine(MenuOption3);
             Console.WriteLine(MenuOption4);
             Console.WriteLine(MenuOption5);
@@ -115,11 +120,41 @@ public class Program
                         Console.WriteLine(Bits);
                         Rows = 6;
                         Cols = 2;
+
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        //CHAPTER FOUR CODE:
+                        Console.WriteLine(ChFourTitle);
+                        Console.WriteLine(ChFourBegin);
+                        bool hasItems = inventory.Length == 0 ? false : true;
+                        if (!hasItems)
+                        {
+                            Console.WriteLine(NoInv);
+                        //CHAPTER 3 CODE:
+                        string[,] playerMap = { { "  ", " 1", " 2", " 3", " 4", " 5" }, { "-1", "➖", "➖", "➖", "➖", "➖" }, { "-2", "➖", "➖", "➖", "➖", "➖" }, { "-3", "➖", "➖", "➖", "➖", "➖" }, { "-4", "➖", "➖", "➖", "➖", "➖" }, { "-5", "➖", "➖", "➖", "➖", "➖" } };
+                        Console.WriteLine(ChThreeTitle);
+                        Console.WriteLine(ChThreeBegin, MaxAtt);
+                        Rows = 6;
+                        Cols = 6;
                         for (int i = 0; i < Rows; i++)
                         {
                             for (int j = 0; j < Cols; j++)
                             {
                                 Console.Write($" | {shop[i, j],-15} | ");
+                                Console.Write($"{playerMap[i, j]}|");
+                                int genCoin = rand.Next(1, 100);
+                                if (genCoin < MineProb)
+                                {
+                                    coinMap[i, j] = 1;
+                                }
+                                else
+                                {
+                                    coinMap[i, j] = 0;
+                                }
                             }
                             Console.WriteLine();
                             if (i == 0)
@@ -131,11 +166,16 @@ public class Program
                         {
                             validId = Int32.TryParse(Console.ReadLine(), out buyId);
                             if (!validId || buyId > 5)
+                        else
+                        {
+                            foreach (string i in inventory)
+                            while (validCords == false)
                             {
                                 Console.WriteLine(PurchaseError);
                                 buyId = -1;
                             }
                             else if (buyId == 0)
+                            switch (coinMap[y, x])
                             {
                                 Console.WriteLine(ExitShop);
 
@@ -162,6 +202,15 @@ public class Program
                                 }
                             }
                         } while (buyId != 0);
+                                Console.WriteLine($"- {i}");
+                            }
+                        }
+                        Console.WriteLine(EndMine, totalBits);
+                        break;
+                    case 4:
+                        break;
+
+                    case 5:
 
                         break;
                     case 6:
