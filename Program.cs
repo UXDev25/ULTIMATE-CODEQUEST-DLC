@@ -4,7 +4,12 @@ public class Program
 {
     static void Main()
     {
+        //GENERAL
         Console.OutputEncoding = System.Text.Encoding.UTF8;
+        int Rows = 0;
+        int Cols = 0;
+        Random rand = new Random();
+
         const string MenuTitle = "===== MAIN MENU - CODEQUEST DLC =====";
         const string MenuOption1 = "1. Train your wizard";
         const string MenuOption2 = "2. Increase LVL";
@@ -63,15 +68,13 @@ public class Program
         const string Six = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n | o   o | /\r\n | o   o |/ \r\n '-------'\r\n";
 
         string input = "";
-        Random rand = new Random();
         int roll = 0;
         int level = 0;
-        string[,] monsterList = {{"Wandering skeleton", "3"}, {"Forest goblin", "5"}, {"Green Slime", "10"}, {"Ember Wolf", "11"}, {"Giant Spider", "18"}, {"Iron Golem", "15"}, {"Lost Necromancer", "20" }, { "Ancient Dragon", "50"} };
+        string[,] monsterList = { { "Wandering skeleton", "3" }, { "Forest goblin", "5" }, { "Green Slime", "10" }, { "Ember Wolf", "11" }, { "Giant Spider", "18" }, { "Iron Golem", "15" }, { "Lost Necromancer", "20" }, { "Ancient Dragon", "50" } };
 
         do
         {
             Console.WriteLine(MenuTitle);
-            Console.WriteLine(MenuOption1);
             Console.WriteLine(MenuOption2);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
@@ -81,56 +84,6 @@ public class Program
                 switch (op)
                 {
                     case 1:
-
-                        //CHAPTER 1 CODE:
-                        Console.WriteLine(ChOneTitle);
-                        Console.WriteLine(ChOneBegin);
-                        Console.WriteLine(ChOneName);
-                        firstName = Console.ReadLine() ?? "";
-
-
-                        while (String.IsNullOrWhiteSpace(firstName) || firstName.Length > 15)
-                        {
-                            Console.WriteLine(NameError);
-                            firstName = Console.ReadLine() ?? "";
-                        }
-
-                        char aux = char.ToUpper(firstName[0]);
-                        string rest = firstName.Substring(1).ToLower();
-                        string name = string.Concat(aux, rest);
-
-                        for (int i = 1; i <= 5; i++)
-                        {
-                            actualPow = randomNum.Next(1, 10);
-                            Console.WriteLine(DayMsg, i, actualPow);
-                            totalPow += actualPow;
-                            Console.WriteLine(PowMsg, totalPow);
-                            Console.ReadLine();
-                        }
-
-                        switch (totalPow)
-                        {
-                            case <= 20:
-                                Console.WriteLine(PowerNoob);
-                                Console.WriteLine(name + LevelNoob);
-                                break;
-                            case <= 30:
-                                Console.WriteLine(PowerPro);
-                                Console.WriteLine(name + LevelPro);
-                                break;
-                            case <= 40:
-                                Console.WriteLine(PowerHacker);
-                                Console.WriteLine(name + LevelHacker);
-                                break;
-                            case <= 47:
-                                Console.WriteLine(PowerGod);
-                                Console.WriteLine(name + LevelGod);
-                                break;
-                            default:
-                                Console.WriteLine(PowerGod);
-                                Console.WriteLine(name + LevelGod);
-                                break;
-                        }
 
                         break;
                     case 2:
@@ -149,12 +102,13 @@ public class Program
                                 Console.WriteLine(ExitForest);
                             }
                             else
-                            { 
-                                while (life > 0) 
+                            {
+                                while (life > 0)
                                 {
                                     roll = rand.Next(MinDice, MaxDice);
                                     life = life - roll;
-                                    switch (roll) 
+                                    if (life < 0) { life = 0; }
+                                    switch (roll)
                                     {
                                         case 1:
                                             Console.WriteLine(One);
@@ -183,12 +137,12 @@ public class Program
                                     level++;
                                     Console.WriteLine(LvlUp, level);
                                 }
-                                else 
+                                else
                                 {
                                     Console.WriteLine(MaxLvl, level);
                                 }
                             }
-                        } while (input != "quit");
+                        } while (input != "0");
                         break;
                     case 3:
                         
