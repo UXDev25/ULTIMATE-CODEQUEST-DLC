@@ -106,7 +106,6 @@ public class Program
         const string ChFourTitle = "===== CHAPTER FOUR =====";
         const string ChFourBegin = "This is your inventory: ";
         const string NoInv = "- You have no items yet. -";
-        const string ShowInv = "- These are your current items: -";
 
         string[] inventory = new string[0];
 
@@ -140,8 +139,8 @@ public class Program
         //CHAPTER SEVEN:
 
         const string ChSevenTitle = "===== CHAPTER SEVEN =====";
-        const string ChSevenBegin = "You found these ancient scrolls, insert the number of one of them to apply a decoding method.";
-        const string LetsContinue = "Ok, now lets decode another:";
+        const string ChSevenBegin = "You found these ancient scrolls, insert the number of one of them to apply a decoding method, insert '0' to leave at any moment.";
+        const string LetsContinue = "Ok, now lets decode another, insert '0' to leave at any moment.";
         const string Decoded1 = "Alright, you decoded the scroll! Let's see how it looks like: ";
         const string Decoded2 = "This scroll has {0} arcane runes on it";
         const string Decoded3 = "These are the mana units you have extracted from the scroll: ";
@@ -547,9 +546,12 @@ public class Program
                                     break;
                             }
                             Console.WriteLine();
+                            if (methodNum != 0) 
+                            {
+                                Console.WriteLine(LetsContinue); 
+                            }
                             if (completed >= MaxComplete) 
                             {
-
                                 Console.WriteLine(Won);
                             }
                         }
