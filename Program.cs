@@ -31,7 +31,7 @@ public class Program
         const string ChOneName = "Please choose your wizard name (max of 15 characters):";
         const string DayMsg = "--DAY {0} you meditated {1} hours, you gained {2} power points!";
         const string PowMsg = "Actual power: {0} press ENTER to continue";
-        const string PowerNoob = "You have to repeat the second convocatory";
+        const string PowerNoob = "You have to repeat the second convocatory.";
         const string PowerAvg = "You still confuse a magic wand with a spoon...";
         const string PowerPro = "You are a magic breeze invoker.";
         const string PowerHacker = "Wow! you can invoke dragons without burning the lab!";
