@@ -27,6 +27,36 @@ public class Program
 
         int op = -1;
 
+        //CHAPTER ONE
+        const string ChOneTitle = "===== CHAPTER ONE =====";
+        const string ChOneBegin = "Welcome to the arcane academy! Let's start training your magic power in the next 5 days.";
+        const string ChOneName = "Please choose your wizard name (max of 15 characters):";
+        const string DayMsg = "--DAY {0} you meditated {1} hours, you gained {2} power points!";
+        const string PowMsg = "Actual power: {0} press ENTER to continue";
+        const string PowerNoob = "You have to repeat the second convocatory";
+        const string PowerAvg = "You still confuse a magic wand with a spoon...";
+        const string PowerPro = "You are a magic breeze invoker.";
+        const string PowerHacker = "Wow! you can invoke dragons without burning the lab!";
+        const string PowerGod = "Congratulations! your power is worth of an arcane master! Your knowldedge is unlimited.";
+        const string NameError = "Invalid name, please input a name with at least one character and shorter than 15 characters.";
+        const string Assign = "{0}, from now on you are {1}";
+        const string LevelAvg = "Raoden el Elantrí";
+        const string LevelNoob = "Zyn el Buguejat";
+        const string LevelPro = "Arka Nullpointer";
+        const string LevelHacker = "Elarion de les Brases";
+        const string LevelGod = "ITB-Wizard el Gris";
+
+        const int MaxHours = 24;
+        const int MaxDays = 5;
+
+        string currentLvl = "Normal Human";
+        int numLevel = 0;
+        string firstName = "";
+        int totalPow = 0;
+        int actualPow = 0;
+        int hours = 0;
+
+        //CHAPTER SIX:
         //CHAPTER FOUR:
         const string ChFourTitle = "===== CHAPTER FOUR =====";
         const string ChFourBegin = "This is your inventory: ";
@@ -51,27 +81,16 @@ public class Program
         int totalBits = 0;
         bool validCords = false;
 
-        //CHAPTER FOUR:
-        const string ChFourTitle = "===== CHAPTER FOUR =====";
-        const string ChFourBegin = "This is your inventory: ";
-        const string NoInv = "- You have no items yet. -";
-        const string ShowInv = "- These are your current items: -";
-
-        string[] inventory = new string[0];
-
-        //CHAPTER FIVE:
-
-        const string ChFiveTitle = "===== CHAPTER FIVE =====";
-        const string ChFiveBegin = "Welcome to the shop! To buy an item, insert the number corresponding to that item, insert '0' to leave.";
-        const string Bits = "Total bits: {0}";
-        const string PurchaseError = "Invalid item, try again.";
-        const string Ins = "Insufficent Bits, go to the mine to get more bits.";
-        const string PurchaseMsg = "You bought a {0} for {1} bits!";
-        const string ExitShop = "See you next time!";
-
-        string[,] shop = { { "Objecte", "Preu (Bits)"}, { "Iron dagger", "30"}, { "Healing Potion", "10" }, { "Ancient Key", "50" }, { "Crossbow", "40" }, { "Metal Shield", "20" } };
-        int buyId = -1;
-        bool validId = false;
+        const string ChSixTitle = "===== CHAPTER SIX =====";
+        const string ChSixBegin = "{0}, These are your wizard Spells!";
+        string[][] spells = new string[][]
+        {
+            new string[] { "Magic Spark 💫" },
+            new string[] { "Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️" },
+            new string[] { "Meteor ☄️", "Pure Energy Explosion 💥", "Minor Charm 🎭", "Air Strike 🍃" },
+            new string[] { "Wave of Light ⚜️", "Storm of Wings 🐦" },
+            new string[] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" },
+        };
 
         do
         {
@@ -80,6 +99,7 @@ public class Program
             Console.WriteLine(MenuOption3);
             Console.WriteLine(MenuOption4);
             Console.WriteLine(MenuOption5);
+            Console.WriteLine(MenuOption6);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
@@ -89,6 +109,68 @@ public class Program
                 switch (op)
                 {
                     case 1:
+
+                        //CHAPTER 1 CODE:
+                        Console.WriteLine(ChOneTitle);
+                        Console.WriteLine(ChOneBegin);
+                        Console.WriteLine(ChOneName);
+                        firstName = Console.ReadLine() ?? "";
+
+
+                        while (String.IsNullOrWhiteSpace(firstName) || firstName.Length > 15)
+                        {
+                            Console.WriteLine(NameError);
+                            firstName = Console.ReadLine() ?? "";
+                        }
+
+                        char aux = char.ToUpper(firstName[0]);
+                        string rest = firstName.Substring(1).ToLower();
+                        string name = string.Concat(aux, rest);
+
+                        for (int i = 1; i <= MaxDays; i++)
+                        {
+                            actualPow = rand.Next(1, 10);
+                            hours = rand.Next(1, MaxHours);
+                            Console.WriteLine(DayMsg, i, hours, actualPow);
+                            totalPow += actualPow;
+                            Console.WriteLine(PowMsg, totalPow);
+                            Console.ReadLine();
+                        }
+
+                        switch (totalPow)
+                        {
+                            case <= 20:
+                                Console.WriteLine(Assign, name, LevelNoob);
+                                Console.WriteLine(PowerNoob);
+                                currentLvl = LevelNoob;
+                                numLevel = 0;
+                                break;
+                            case < 30:
+                                Console.WriteLine(Assign, name, LevelAvg);
+                                Console.WriteLine(PowerAvg);
+                                currentLvl = LevelAvg;
+                                numLevel = 1;
+                                break;
+                            case < 35:
+                                Console.WriteLine(Assign, name, LevelPro);
+                                Console.WriteLine(PowerPro);
+                                currentLvl = LevelPro;
+                                numLevel = 2;
+                                break;
+                            case < 40:
+                                Console.WriteLine(Assign, name, LevelHacker);
+                                Console.WriteLine(PowerHacker);
+                                currentLvl = LevelHacker;
+                                numLevel = 3;
+                                break;
+                            default:
+                                Console.WriteLine(Assign, name, LevelGod);
+                                Console.WriteLine(PowerGod);
+                                currentLvl = LevelGod;
+                                numLevel = 4;
+                                break;
+                        }
+                        Console.WriteLine();
                         break;
                     case 2:
                         break;
@@ -214,7 +296,14 @@ public class Program
 
                         break;
                     case 6:
-
+                        //CHAPTER SIX CODE:
+                        Console.WriteLine(ChSixTitle);
+                        Console.WriteLine(ChSixBegin, currentLvl);
+                        Console.WriteLine();
+                        for (int j = 0; j < spells[numLevel].Length; j++)
+                        {
+                            Console.WriteLine($"- {spells[numLevel][j]}.");
+                        }
                         break;
                     case 7:
 
@@ -239,6 +328,7 @@ public class Program
             {
                 Console.WriteLine(InputErrorMessage);
             }
+            Console.WriteLine();
         } while (op != 0);
     }
 }
