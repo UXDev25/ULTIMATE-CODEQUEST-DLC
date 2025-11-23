@@ -5,6 +5,12 @@ public class Program
 {
     static void Main()
     {
+        //GENERAL
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+        int Rows = 0;
+        int Cols = 0;
+        Random rand = new Random();
+
         const string MenuTitle = "===== MAIN MENU - CODEQUEST DLC =====";
         const string MenuOption1 = "1. Train your wizard";
         const string MenuOption2 = "2. Increase LVL";
@@ -23,32 +29,35 @@ public class Program
         const string ChOneTitle = "===== CHAPTER ONE =====";
         const string ChOneBegin = "Welcome to the arcane academy! Let's start training your magic power in the next 5 days.";
         const string ChOneName = "Please choose your wizard name (max of 15 characters):";
-        const string DayMsg = "--DAY {0} you meditated 10 hours, you gained {1} power points!";
+        const string DayMsg = "--DAY {0} you meditated {1} hours, you gained {2} power points!";
         const string PowMsg = "Actual power: {0} press ENTER to continue";
-        const string PowerNoob = "You are weak, you think that spoons are the same that magic wands...";
-        const string PowerPro = "Almost there! At least you can conjure little magic breezes...";
-        const string PowerHacker = "Yeah! your power is pretty impressive! you can invoke all sorts of dragons and conjure different spells.";
+        const string PowerNoob = "You have to repeat the second convocatory";
+        const string PowerAvg = "You still confuse a magic wand with a spoon...";
+        const string PowerPro = "You are a magic breeze invoker.";
+        const string PowerHacker = "Wow! you can invoke dragons without burning the lab!";
         const string PowerGod = "Congratulations! your power is worth of an arcane master! Your knowldedge is unlimited.";
         const string NameError = "Invalid name, please input a name with at least one character and shorter than 15 characters.";
+        const string Assign = "{0}, from now on you are {1}";
+        const string LevelAvg = "Raoden el Elantrí";
+        const string LevelNoob = "Zyn el Buguejat";
+        const string LevelPro = "Arka Nullpointer";
+        const string LevelHacker = "Elarion de les Brases";
+        const string LevelGod = "ITB-Wizard el Gris";
 
-        const string LevelNoob = ", The Bread Head, That's your level.";
-        const string LevelPro = " Peppermint, That's your level.";
-        const string LevelHacker = ", The red magician, That's your level.";
-        const string LevelGod = ", Jujutsu of Oblivion, That's your level.";
+        const int MaxHours = 24;
+        const int MaxDays = 5;
 
+        string currentLvl = "Normal Human";
+        int numLevel = 0;
         string firstName = "";
-        var randomNum = new Random();
         int totalPow = 0;
         int actualPow = 0;
-
-       
+        int hours = 0;
 
         do
         {
             Console.WriteLine(MenuTitle);
             Console.WriteLine(MenuOption1);
-            Console.WriteLine(MenuOption2);
-            Console.WriteLine(MenuOption3);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
@@ -75,10 +84,11 @@ public class Program
                         string rest = firstName.Substring(1).ToLower();
                         string name = string.Concat(aux, rest);
 
-                        for (int i = 1; i <= 5; i++)
+                        for (int i = 1; i <= MaxDays; i++)
                         {
-                            actualPow = randomNum.Next(1, 10);
-                            Console.WriteLine(DayMsg, i, actualPow);
+                            actualPow = rand.Next(1, 10);
+                            hours = rand.Next(1, MaxHours);
+                            Console.WriteLine(DayMsg, i, hours, actualPow);
                             totalPow += actualPow;
                             Console.WriteLine(PowMsg, totalPow);
                             Console.ReadLine();
@@ -87,27 +97,37 @@ public class Program
                         switch (totalPow)
                         {
                             case <= 20:
+                                Console.WriteLine(Assign, name, LevelNoob);
                                 Console.WriteLine(PowerNoob);
-                                Console.WriteLine(name + LevelNoob);
+                                currentLvl = LevelNoob;
+                                numLevel = 0;
                                 break;
-                            case <= 30:
+                            case < 30:
+                                Console.WriteLine(Assign, name, LevelAvg);
+                                Console.WriteLine(PowerAvg);
+                                currentLvl = LevelAvg;
+                                numLevel = 1;
+                                break;
+                            case < 35:
+                                Console.WriteLine(Assign, name, LevelPro);
                                 Console.WriteLine(PowerPro);
-                                Console.WriteLine(name + LevelPro);
+                                currentLvl = LevelPro;
+                                numLevel = 2;
                                 break;
-                            case <= 40:
+                            case < 40:
+                                Console.WriteLine(Assign, name, LevelHacker);
                                 Console.WriteLine(PowerHacker);
-                                Console.WriteLine(name + LevelHacker);
-                                break;
-                            case <= 47:
-                                Console.WriteLine(PowerGod);
-                                Console.WriteLine(name + LevelGod);
+                                currentLvl = LevelHacker;
+                                numLevel = 3;
                                 break;
                             default:
+                                Console.WriteLine(Assign, name, LevelGod);
                                 Console.WriteLine(PowerGod);
-                                Console.WriteLine(name + LevelGod);
+                                currentLvl = LevelGod;
+                                numLevel = 4;
                                 break;
                         }
-
+                        Console.WriteLine();
                         break;
                     case 2:
                         
