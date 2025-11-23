@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
 public class Program
 {
     static void Main()
@@ -52,12 +51,39 @@ public class Program
         string firstName = "";
         int totalPow = 0;
         int actualPow = 0;
+
+        //CHAPTER TWO
+        const string ChTwoTitle = "===== CHAPTER TWO =====";
+        const string ChTwoBegin = "Welcome to the dark forest, lets start grinding some monsters to gain level!";
+        const string MonsterMsg = "A wild {0} appeared, it has {1} points of life. Lets fight! (press enter to roll the dice, enter '0' to exit the forest.)";
+        const string LvlUp = "LEVEL UP! Your level is now {0}";
+        const string MaxLvl = "You are max level! ({0})";
+        const string RollMsg = "You rolled {0}, {1}'s total life: {2}";
+        const string ExitForest = "Nice session! Goodbye!";
+        const int MinDice = 1;
+        const int MaxDice = 6;
+        const int MaxMonst = 7;
+
+        //-ascii dices:
+
+        const string One = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
+        const string Two = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |  o o  | /\r\n |       |/ \r\n '-------'\r\n";
+        const string Three = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o     | |\r\n |   o   | /\r\n |     o |/ \r\n '-------'\r\n";
+        const string Four = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n |       | /\r\n | o   o |/ \r\n '-------'\r\n";
+        const string Five = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n |   o   | /\r\n | o   o |/ \r\n '-------'\r\n";
+        const string Six = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n | o   o | /\r\n | o   o |/ \r\n '-------'\r\n";
+
+        string input = "";
+        int roll = 0;
+        int level = 0;
+        string[,] monsterList = { { "Wandering skeleton", "3" }, { "Forest goblin", "5" }, { "Green Slime", "10" }, { "Ember Wolf", "11" }, { "Giant Spider", "18" }, { "Iron Golem", "15" }, { "Lost Necromancer", "20" }, { "Ancient Dragon", "50" } };
         int hours = 0;
 
         do
         {
             Console.WriteLine(MenuTitle);
             Console.WriteLine(MenuOption1);
+            Console.WriteLine(MenuOption);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
@@ -130,12 +156,66 @@ public class Program
                         Console.WriteLine();
                         break;
                     case 2:
-                        
-                        break;
+                        //CHAPTER 2 CODE:
 
+                        Console.WriteLine(ChTwoTitle);
+                        Console.WriteLine(ChTwoBegin);
+                        do
+                        {
+                            int aux2 = rand.Next(0, MaxMonst);
+                            int life = Convert.ToInt32(monsterList[aux2, 1]);
+                            Console.WriteLine(MonsterMsg, monsterList[aux2, 0], life);
+                            input = Convert.ToString(Console.ReadLine() ?? "");
+                            if (input == "0")
+                            {
+                                Console.WriteLine(ExitForest);
+                            }
+                            else
+                            {
+                                while (life > 0)
+                                {
+                                    roll = rand.Next(MinDice, MaxDice);
+                                    life = life - roll;
+                                    if (life < 0) { life = 0; }
+                                    switch (roll)
+                                    {
+                                        case 1:
+                                            Console.WriteLine(One);
+                                            break;
+                                        case 2:
+                                            Console.WriteLine(Two);
+                                            break;
+                                        case 3:
+                                            Console.WriteLine(Three);
+                                            break;
+                                        case 4:
+                                            Console.WriteLine(Four);
+                                            break;
+                                        case 5:
+                                            Console.WriteLine(Five);
+                                            break;
+                                        default:
+                                            Console.WriteLine(Six);
+                                            break;
+                                    }
+                                    Console.WriteLine(RollMsg, roll, monsterList[aux2, 0], life);
+                                    Console.ReadLine();
+                                }
+                                if (level < 5)
+                                {
+                                    level++;
+                                    Console.WriteLine(LvlUp, level);
+                                }
+                                else
+                                {
+                                    Console.WriteLine(MaxLvl, level);
+                                }
+                            }
+                        } while (input != "0");
+                        break;
                     case 3:
                         
-                        break;
+                            break;
                     case 4:
 
                         break;
