@@ -138,7 +138,7 @@ public class Program
                             else if (buyId == 0)
                             {
                                 Console.WriteLine(ExitShop);
-                                
+
                             }
                             else
                             {
@@ -161,8 +161,7 @@ public class Program
                                     Console.WriteLine(Bits, totalBits);
                                 }
                             }
-                            Console.WriteLine();
-                        } while (buyId != 0);                
+                        } while (buyId != 0);
 
                         break;
                     case 6:
