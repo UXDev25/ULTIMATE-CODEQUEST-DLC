@@ -31,11 +31,29 @@ public class Program
         const string NoInv = "- You have no items yet. -";
 
         string[] inventory = new string[0];
+        //CHAPTER THREE:
+
+        const string ChThreeTitle = "===== CHAPTER THREE =====";
+        const string ChThreeBegin = "Lets mine some gold! Enter the coordinates of the chunk you want to mine, you got {0} attemps";
+        const string CoordError = "Invalid coordinates, try again";
+        const string Miss = "You found nothing... Attemps left: {0} (Enter the coordinates of the chunk you want to mine)";
+        const string Hit = "You found gold! Bits won: {0}. Attemps left: {1}";
+        const string Dumb = "You alredy checked this chunk!. Attemps left: {0}";
+        const string EndMine = "End of the session, your final bit score: {0}";
+        const int MaxAtt = 5;
+        const int MineProb = 60;
+
+        int[,] coinMap = new int[6, 6];
+        int x = 0;
+        int y = 0;
+        int totalBits = 0;
+        bool validCords = false;
 
         do
         {
             Console.WriteLine(MenuTitle);
             Console.WriteLine(MenuOption4);
+            Console.WriteLine(MenuOption3);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
@@ -45,6 +63,7 @@ public class Program
                 switch (op)
                 {
                     case 1:
+
                         break;
                     case 2:
                         break;
@@ -58,14 +77,76 @@ public class Program
                         if (!hasItems)
                         {
                             Console.WriteLine(NoInv);
+                        //CHAPTER 3 CODE:
+                        string[,] playerMap = { { "  ", " 1", " 2", " 3", " 4", " 5" }, { "-1", "➖", "➖", "➖", "➖", "➖" }, { "-2", "➖", "➖", "➖", "➖", "➖" }, { "-3", "➖", "➖", "➖", "➖", "➖" }, { "-4", "➖", "➖", "➖", "➖", "➖" }, { "-5", "➖", "➖", "➖", "➖", "➖" } };
+                        Console.WriteLine(ChThreeTitle);
+                        Console.WriteLine(ChThreeBegin, MaxAtt);
+                        Rows = 6;
+                        Cols = 6;
+                        for (int i = 0; i < Rows; i++)
+                        {
+                            for (int j = 0; j < Cols; j++)
+                            {
+                                Console.Write($"{playerMap[i, j]}|");
+                                int genCoin = rand.Next(1, 100);
+                                if (genCoin < MineProb)
+                                {
+                                    coinMap[i, j] = 1;
+                                }
+                                else
+                                {
+                                    coinMap[i, j] = 0;
+                                }
+                            }
+                            Console.WriteLine();
+                            if (i == 0)
+                            {
+                                Console.WriteLine("------------------");
+                            }
                         }
                         else
                         {
                             foreach (string i in inventory)
+                            while (validCords == false)
+                            {
+                                Console.Write("x: ");
+                                bool isXInt = Int32.TryParse(Console.ReadLine(), out x);
+                                Console.Write("y: ");
+                                bool isYInt = Int32.TryParse(Console.ReadLine(), out y);
+                                x = Math.Abs(x);
+                                y = Math.Abs(y);
+                                validCords = isYInt && isXInt && x < 6 && x > 0 && y < 6 && y > 0;
+                                if (!validCords)
+                                {
+                                    Console.WriteLine(CoordError);
+                                }
+                            }
+                            switch (coinMap[y, x])
+                            {
+                                case 1:
+                                    int bits = rand.Next(5, 50);
+                                    totalBits = totalBits + bits;
+                                    Console.WriteLine(Hit, bits, i);
+                                    playerMap[y, x] = "🪙";
+                                    coinMap[y, x] = 2;
+                                    break;
+                                case 2:
+                                    Console.WriteLine(Dumb, i);
+                                    break;
+                                default:
+                                    Console.WriteLine(Miss, i);
+                                    playerMap[y, x] = "❌";
+                                    coinMap[y, x] = 2;
+                                    break;
+                            }
+                            for (int k = 0; k < Rows; k++)
                             {
                                 Console.WriteLine($"- {i}");
                             }
                         }
+                        Console.WriteLine(EndMine, totalBits);
+                        break;
+                    case 4:
                         break;
 
                     case 5:
