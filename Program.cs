@@ -25,6 +25,12 @@ public class Program
 
         int op = -1;
 
+        //CHAPTER FOUR:
+        const string ChFourTitle = "===== CHAPTER FOUR =====";
+        const string ChFourBegin = "This is your inventory: ";
+        const string NoInv = "- You have no items yet. -";
+
+        string[] inventory = new string[0];
         //CHAPTER THREE:
 
         const string ChThreeTitle = "===== CHAPTER THREE =====";
@@ -46,12 +52,14 @@ public class Program
         do
         {
             Console.WriteLine(MenuTitle);
+            Console.WriteLine(MenuOption4);
             Console.WriteLine(MenuOption3);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
             {
                 op = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
                 switch (op)
                 {
                     case 1:
@@ -60,6 +68,15 @@ public class Program
                     case 2:
                         break;
                     case 3:
+                        break;
+                    case 4:
+                        //CHAPTER FOUR CODE:
+                        Console.WriteLine(ChFourTitle);
+                        Console.WriteLine(ChFourBegin);
+                        bool hasItems = inventory.Length == 0 ? false : true;
+                        if (!hasItems)
+                        {
+                            Console.WriteLine(NoInv);
                         //CHAPTER 3 CODE:
                         string[,] playerMap = { { "  ", " 1", " 2", " 3", " 4", " 5" }, { "-1", "➖", "➖", "➖", "➖", "➖" }, { "-2", "➖", "➖", "➖", "➖", "➖" }, { "-3", "➖", "➖", "➖", "➖", "➖" }, { "-4", "➖", "➖", "➖", "➖", "➖" }, { "-5", "➖", "➖", "➖", "➖", "➖" } };
                         Console.WriteLine(ChThreeTitle);
@@ -87,8 +104,9 @@ public class Program
                                 Console.WriteLine("------------------");
                             }
                         }
-                        for (int i = MaxAtt - 1; i >= 0; i--)
+                        else
                         {
+                            foreach (string i in inventory)
                             while (validCords == false)
                             {
                                 Console.Write("x: ");
@@ -123,17 +141,8 @@ public class Program
                             }
                             for (int k = 0; k < Rows; k++)
                             {
-                                for (int l = 0; l < Cols; l++)
-                                {
-                                    Console.Write($"{playerMap[k, l]}|");
-                                }
-                                Console.WriteLine();
-                                if (k == 0)
-                                {
-                                    Console.WriteLine("------------------");
-                                }
+                                Console.WriteLine($"- {i}");
                             }
-                            validCords = false;
                         }
                         Console.WriteLine(EndMine, totalBits);
                         break;
