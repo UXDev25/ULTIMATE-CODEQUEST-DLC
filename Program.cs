@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Xml;
 public class Program
 {
     static void Main()
@@ -49,11 +51,35 @@ public class Program
         int totalBits = 0;
         bool validCords = false;
 
+        //CHAPTER FOUR:
+        const string ChFourTitle = "===== CHAPTER FOUR =====";
+        const string ChFourBegin = "This is your inventory: ";
+        const string NoInv = "- You have no items yet. -";
+        const string ShowInv = "- These are your current items: -";
+
+        string[] inventory = new string[0];
+
+        //CHAPTER FIVE:
+
+        const string ChFiveTitle = "===== CHAPTER FIVE =====";
+        const string ChFiveBegin = "Welcome to the shop! To buy an item, insert the number corresponding to that item, insert '0' to leave.";
+        const string Bits = "Total bits: {0}";
+        const string PurchaseError = "Invalid item, try again.";
+        const string Ins = "Insufficent Bits, go to the mine to get more bits.";
+        const string PurchaseMsg = "You bought a {0} for {1} bits!";
+        const string ExitShop = "See you next time!";
+
+        string[,] shop = { { "Objecte", "Preu (Bits)"}, { "Iron dagger", "30"}, { "Healing Potion", "10" }, { "Ancient Key", "50" }, { "Crossbow", "40" }, { "Metal Shield", "20" } };
+        int buyId = -1;
+        bool validId = false;
+
         do
         {
             Console.WriteLine(MenuTitle);
             Console.WriteLine(MenuOption4);
             Console.WriteLine(MenuOption3);
+            Console.WriteLine(MenuOption4);
+            Console.WriteLine(MenuOption5);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
@@ -63,6 +89,37 @@ public class Program
                 switch (op)
                 {
                     case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        //CHAPTER FOUR CODE:
+                        Console.WriteLine(ChFourTitle);
+                        Console.WriteLine(ChFourBegin);
+                        bool hasItems = inventory.Length == 0 ? false : true;
+                        if (!hasItems)
+                        {
+                            Console.WriteLine(NoInv);
+                        }
+                        else 
+                        {
+                            foreach (string i in inventory)
+                            {
+                                Console.WriteLine($"- {i}");
+                            }
+                        }
+                        Console.WriteLine();
+                        break;
+
+                    case 5:
+                        //CHAPTER FIVE CODE:
+                        Console.WriteLine(ChFiveTitle);
+                        Console.WriteLine(ChFiveBegin);
+                        Console.WriteLine(Bits);
+                        Rows = 6;
+                        Cols = 2;
 
                         break;
                     case 2:
@@ -87,6 +144,7 @@ public class Program
                         {
                             for (int j = 0; j < Cols; j++)
                             {
+                                Console.Write($" | {shop[i, j],-15} | ");
                                 Console.Write($"{playerMap[i, j]}|");
                                 int genCoin = rand.Next(1, 100);
                                 if (genCoin < MineProb)
@@ -101,46 +159,49 @@ public class Program
                             Console.WriteLine();
                             if (i == 0)
                             {
-                                Console.WriteLine("------------------");
+                                Console.WriteLine("-----------------------------------");
                             }
                         }
+                        do
+                        {
+                            validId = Int32.TryParse(Console.ReadLine(), out buyId);
+                            if (!validId || buyId > 5)
                         else
                         {
                             foreach (string i in inventory)
                             while (validCords == false)
                             {
-                                Console.Write("x: ");
-                                bool isXInt = Int32.TryParse(Console.ReadLine(), out x);
-                                Console.Write("y: ");
-                                bool isYInt = Int32.TryParse(Console.ReadLine(), out y);
-                                x = Math.Abs(x);
-                                y = Math.Abs(y);
-                                validCords = isYInt && isXInt && x < 6 && x > 0 && y < 6 && y > 0;
-                                if (!validCords)
-                                {
-                                    Console.WriteLine(CoordError);
-                                }
+                                Console.WriteLine(PurchaseError);
+                                buyId = -1;
                             }
+                            else if (buyId == 0)
                             switch (coinMap[y, x])
                             {
-                                case 1:
-                                    int bits = rand.Next(5, 50);
-                                    totalBits = totalBits + bits;
-                                    Console.WriteLine(Hit, bits, i);
-                                    playerMap[y, x] = "🪙";
-                                    coinMap[y, x] = 2;
-                                    break;
-                                case 2:
-                                    Console.WriteLine(Dumb, i);
-                                    break;
-                                default:
-                                    Console.WriteLine(Miss, i);
-                                    playerMap[y, x] = "❌";
-                                    coinMap[y, x] = 2;
-                                    break;
+                                Console.WriteLine(ExitShop);
+
                             }
-                            for (int k = 0; k < Rows; k++)
+                            else
                             {
+                                bool insuf = Convert.ToInt32(shop[buyId, 1]) > totalBits ? true : false;
+                                if (insuf)
+                                {
+                                    Console.WriteLine(Ins);
+                                }
+                                else
+                                {
+                                    string[] auxArray = new string[inventory.GetLength(0) + 1];
+                                    for (int i = 0; i < inventory.GetLength(0); i++)
+                                    {
+                                        auxArray[i] = inventory[i];
+                                    }
+                                    inventory = auxArray;
+                                    inventory[inventory.GetLength(0) - 1] = shop[buyId, 0];
+                                    totalBits -= Convert.ToInt32(shop[buyId, 1]);
+                                    Console.WriteLine(PurchaseMsg, shop[buyId, 0], shop[buyId, 1]);
+                                    Console.WriteLine(Bits, totalBits);
+                                }
+                            }
+                        } while (buyId != 0);
                                 Console.WriteLine($"- {i}");
                             }
                         }
