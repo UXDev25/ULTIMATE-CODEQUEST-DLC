@@ -3,6 +3,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
 public class Program
 {
     static void Main()
@@ -123,7 +124,7 @@ public class Program
         int buyId = -1;
         bool validId = false;
 
-        //CHAPTER SIX text for commiting:
+        //CHAPTER SIX:
 
         const string ChSixTitle = "===== CHAPTER SIX =====";
         const string ChSixBegin = "{0}, These are your wizard Spells!";
@@ -136,6 +137,30 @@ public class Program
             new string[] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" },
         };
 
+        //CHAPTER SEVEN:
+
+        const string ChSevenTitle = "===== CHAPTER SEVEN =====";
+        const string ChSevenBegin = "You found these ancient scrolls, insert the number of one of them to apply a decoding method.";
+        const string LetsContinue = "Ok, now lets decode another:";
+        const string Decoded1 = "Alright, you decoded the scroll! Let's see how it looks like: ";
+        const string Decoded2 = "This scroll has {0} arcane runes on it";
+        const string Decoded3 = "These are the mana units you have extracted from the scroll: ";
+        const string Invalid = "Invalid script, try again";
+        const string Won = "Congratulations! You decoded All the scripts!";
+        const string Bye = "Good job, see you later!";
+        const string VowelsList = "aeiouAEIOUáéíóúàèìòù";
+
+        const int MaxComplete = 3;
+
+        string noSpace = "";
+        string numbers = "";
+        string actualNumber = "";
+        bool quit = false;
+        bool validMethod = true;
+        int methodNum = 0;
+        int vowels = 0;
+        int completed = 0;
+
         do
         {
             Console.WriteLine(MenuTitle);
@@ -145,6 +170,7 @@ public class Program
             Console.WriteLine(MenuOption4);
             Console.WriteLine(MenuOption5);
             Console.WriteLine(MenuOption6);
+            Console.WriteLine(MenuOption7);
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
             try
@@ -273,7 +299,7 @@ public class Program
                                     Console.WriteLine(MaxLvl, level);
                                 }
                             }
-                        } while (input != "quit");
+                        } while (input != "0");
                         break;
                     case 3:
                         //CHAPTER 3 CODE:
@@ -438,7 +464,96 @@ public class Program
                         }
                         break;
                     case 7:
+                        //CHAPTER 7 CODE:
+                        Console.WriteLine(ChSevenTitle);
+                        Console.WriteLine(ChSevenBegin);
+                        quit = false;
+                        completed = 0;
+                        string[] scrolls = { "The magic dragon, which shall defeat the heroes rests on his cave", "All wizards must stay strong against enemies, it can be tough, but rewarding.", "The dark lord has 12 magic elves at his service, 5 of them are woman and the other 7 are men." };
+                        string[] methods = { "Remove dark magic (remove spaces)", "Count arcane runes (Count vowels)", "Extract mana (Extract numbers)" };
+                        do 
+                        {
+                            for (int i = 0; i < scrolls.Length; i++)
+                            {
+                                Console.WriteLine($"- {i + 1}:{scrolls[i]}");
+                            }
+                            Console.WriteLine();
+                            for (int i = 0; i < methods.Length; i++)
+                            {
+                                Console.WriteLine($"- {i + 1}:{methods[i]}");
+                            }
+                            Console.WriteLine();
+                            do
+                            {
+                                validMethod = Int32.TryParse(Console.ReadLine(), out methodNum);
+                                if (!validMethod)
+                                {
+                                    Console.WriteLine(Invalid);
+                                }
+                            } while (!validMethod);
+                            Console.WriteLine();
+                            switch (methodNum)
+                            {
+                                case 1:
+                                    noSpace = scrolls[methodNum - 1].Replace(" ", "");
+                                    Console.WriteLine(Decoded1);
+                                    Console.WriteLine(noSpace);
+                                    completed++;
+                                    break;
+                                case 2:
+                                    vowels = 0;
+                                    foreach (char i in scrolls[methodNum - 1])
+                                    {
+                                        if (VowelsList.Contains(i))
+                                        {
+                                            vowels++;
+                                        }
+                                    }
+                                    Console.WriteLine(Decoded2, vowels);
+                                    completed++;
+                                    break;
+                                case 3:
+                                    numbers = "";
+                                    actualNumber = "";
+                                    foreach (char i in scrolls[methodNum - 1])
+                                    {
+                                        if (char.IsDigit(i))
+                                        {
+                                            actualNumber += i;
+                                        }
+                                        else
+                                        {
+                                            if (actualNumber != "")
+                                            {
+                                                numbers = numbers + $"{actualNumber}, ";
+                                                actualNumber = ""; 
+                                            }
+                                        }
+                                    }
+                                    if (actualNumber != "")
+                                    {
+                                        numbers = numbers + $"{actualNumber}, ";
+                                    }
 
+                                    Console.WriteLine(Decoded3 + numbers);
+                                    completed++;
+                                    break;
+                                case 0:
+                                    Console.WriteLine(Bye);
+                                    quit = true;
+                                    break;
+                                default:
+                                    Console.WriteLine(Invalid);
+                                    break;
+                            }
+                            Console.WriteLine();
+                            if (completed >= MaxComplete) 
+                            {
+
+                                Console.WriteLine(Won);
+                            }
+                        }
+                        while (quit == false && completed < MaxComplete);
                         break;
                     case 0:
                         Console.WriteLine("Quitting...");
